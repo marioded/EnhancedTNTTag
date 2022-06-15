@@ -1,0 +1,243 @@
+commands:
+  no-console: '&cYou must be a player to use this command!'
+  no-permission: '&cYou do not have permission to use this command!'
+  user-help:
+    - '&8» &7Running &c&lTNTTag &7by &ezMario &7(Version: &e%version%&7)'
+    - ''
+    - '&e/tnttag join <game> &7- &fJoin a new game.'
+    - '&e/tnttag leave &7- &fLeave the current game.'
+    - ''
+  admin-help:
+    - '&8» &7Running &c&lTNTTag &7by &ezMario &7(Version: &e%version%&7)'
+    - ''
+    - '&e/tnttag join <game> &7- &fJoin a new game.'
+    - '&e/tnttag leave &7- &fLeave the current game.'
+    - ''
+    - '&e/tnttag setMainLobby &7- &fSet the main lobby.'
+    - '&e/tnttag build &7- &fToggle the build mode.'
+    - '&e/tnttag create &7- &fCreate a new game.'
+    - '&e/tnttag save &7- &fSave the current game.'
+    - '&e/tnttag reload &7- &fReload the config.'
+  subcommands:
+    reload:
+      success: '&aThe plugin configurations have been reloaded!'
+    build:
+      toggled-on: '&aThe build mode has been enabled.'
+      toggled-off: '&7The build mode has been disabled.'
+    join:
+      usage: '&cUsage: &f/tnttag join <game>'
+      already-joined: '&cYou are already in this game!'
+      not-exist: '&cThe game does not exist!'
+      already-in-game: '&cYou are already in a game!'
+      full: '&cThis game is full!'
+      game-in-progress: '&cThis game is already in progress!'
+    leave:
+      not-in-game: '&cYou are not in a game!'
+      success: '&aYou have left the game %arena%.'
+    create:
+      usage: '&aUsage: &7/tnttag create <name>'
+      already-exists: '&cAn arena with that name already exists!'
+      start:
+        - '&e&lTNTTag &7- &fArena setup'
+        - '&aStarting creating the arena! Use the following commands to setup it:'
+        - ''
+        - '&e/tnttag setMaxPlayers <number> &7- &fSet the maximum amount of players allowed in the arena.'
+        - '&e/tnttag setMinPlayers <number> &7- &fSet the minimum amount of players allowed in the arena.'
+        - '&e/tnttag setLobby &7- &fSet the waiting lobby location.'
+        - '&e/tnttag setSpawn &7- &fSet the spawn location.'
+        - '&e/tnttag setSpectatorSpawn &7- &fSet the spectator spawn location.'
+        - '&e/tnttag save &7- &fSave the arena and enable it.'
+    set-main-lobby:
+      success: '&aThe main lobby has been set!'
+    setup:
+      not-setting: '&cYou are not setting up an arena!'
+      set-max-players:
+        usage: '&cUsage: &f/tnttag setMaxPlayers <number>'
+        not-a-number: '&cThe maximum players must be a positive number!'
+        success: '&aThe maximum amount of players has been set to %max-players%!'
+      set-min-players:
+        usage: '&cUsage: &f/tnttag setMinPlayers <number>'
+        not-a-number: '&cThe minimum players must be a positive number!'
+        success: '&aThe minimum amount of players has been set to %min-players%!'
+      set-lobby:
+        success: '&aThe lobby location has been set!'
+      set-spawn:
+        success: '&aThe spawn location has been set!'
+      set-spectator-spawn:
+        success: '&aThe spectator spawn location has been set!'
+      save:
+        success: '&aThe arena has been saved!'
+    unload:
+      usage: '&aUsage: &7/tnttag unload <name>'
+      not-exists: '&cThe arena does not exist!'
+      success: '&aThe arena has been disabled!'
+main-lobby-not-set: '&cThe main lobby location is not set!'
+arena-join-motd:
+  - '&a▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬'
+  - '                      &f&lTNT Tag'
+  - '       &e&lAvoid players with TNT on their heads! If'
+  - '        &e&lthey hit you, try to tag another player'
+  - '              &e&lbefore the TNT explodes!'
+  - '&a▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬'
+player-joined: '&7%player% &ehas joined (&b%players%&e/&b%max-players%&e)!'
+player-left: '&7%player% &ehas quit!'
+not-enough-players: '&cWe don''t have enough players! Start cancelled.'
+game-starting: '&eThe game starts in &b%countdown%&e %second-or-seconds%!'
+player-tagged: '&7%player% &ctagged you!'
+target-tagged: '&aYou tagged &7%player%&a!'
+tagged-broadcast: '&7%player% is IT!'
+player-blown-up: '&7%player% &eblew up!'
+round-started:
+  - ''
+  - '               &f&lRound %round% has started!'
+  - '     &eThe TNT has been released to &7%players%'
+  - ''
+  - '             &aYou did NOT start as IT! Run away!'
+  - ''
+round-started-tagger:
+  - ''
+  - '              &f&lRound %round% has started!'
+  - '     &eThe TNT has been released to &7%players%'
+  - ''
+  - '        &cYou started as IT! Give it to someone else quickly!'
+  - ''
+round-started-spectator:
+  - ''
+  - '               &f&lRound %round% has started'
+  - '     &eThe TNT has been released to &7%players%'
+  - ''
+death-match-started:
+  - ''
+  - '                &f&lDeathmatch has started!'
+  - '     &eThe TNT has been released to &7%players%'
+  - ''
+  - '              &aYou did NOT start as IT! Run away!'
+  - ''
+death-match-started-tagger:
+    - ''
+    - '                &f&lDeathmatch has started!'
+    - '     &eThe TNT has been released to &7%players%'
+    - ''
+    - '        &cYou started as IT! Give it to someone else quickly!'
+    - ''
+death-match-started-spectator:
+    - ''
+    - '                &f&lDeathmatch has started!'
+    - '     &eThe TNT has been released to &7%players%'
+    - ''
+game-ended:
+  - '&a▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬'
+  - '                   &f&lTNT Tag'
+  - ''
+  - '            &e&l1st Place: &f%player-1%'
+  - '            &e&l2nd Place: &f%player-2%'
+  - '            &e&l3rd Place: &f%player-3%'
+  - ''
+  - '&a▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬'
+scoreboard:
+  title: '&e&lTNT TAG'
+  lobby:
+    - '&7%date%'
+    - ''
+    - '&fWins: &a%wins%' # Placeholder to add
+    - ''
+    - '&ewww.spigotmc.org'
+  waiting:
+    - '&7%date%'
+    - ' '
+    - '&fMap: &a%map%'
+    - '&fPlayers: &a%players%/%max-players%'
+    - ' '
+    - '&fWaiting for players...'
+    - ' '
+    - '&ewww.spigotmc.org'
+  starting:
+    - '&7%date%'
+    - ' '
+    - '&fMap: &a%map%'
+    - '&fPlayers: &a%players%/%max-players%'
+    - ' '
+    - '&fStarting in &a%countdown%s &fto'
+    - '&fallow time for'
+    - '&fadditional players'
+    - ' '
+    - '&ewww.spigotmc.org'
+  playing:
+    untagged:
+      - '&7Round #%round%'
+      - ' '
+      - '&eExplosion in &e%explosion-time%s'
+      - ' '
+      - '&fGoal: &aRun away!'
+      - ' '
+      - '&fAlive: &a%players% Players'
+      - ' '
+      - '&7%date%'
+      - '&ewww.spigotmc.org'
+    tagged:
+      - '&7Round #%round%'
+      - ' '
+      - '&eExplosion in &e%explosion-time%s'
+      - ' '
+      - '&fGoal: &cTag someone!'
+      - ' '
+      - '&fAlive: &a%players% Players'
+      - ' '
+      - '&7%date%'
+      - '&ewww.spigotmc.org'
+    spectator:
+      - '&7Round #%round%'
+      - ' '
+      - '&eExplosion in &e%explosion-time%s'
+      - ' '
+      - '&fAlive: &a%players% Players'
+      - ' '
+      - '&7%date%'
+      - '&ewww.spigotmc.org'
+  restarting:
+      - ' '
+      - '&aThanks for playing!'
+      - ' '
+      - '&fWinner: &a%player-1%'
+      - ' '
+      - '&7%date%'
+      - '&ewww.spigotmc.org'
+tab-list:
+  untagged: '&7%player%'
+  tagged: '&c[IT] %player%'
+  spectator: '&7[SPEC] %player%'
+  waiting: '&7%player%'
+  lobby: '&7%player%'
+titles:
+  game-starting: '&e%countdown%;&r;0;20;0'
+  game-started: '&aThe game has started!;&aRun!;20;60;20'
+  game-started-tagged: '&aThe game has started!;&cYou are IT!;20;60;20'
+  new-round: '&aNew round!;&aRun!'
+  new-round-tagged: '&aNew round!;&cYou are IT!;20;60;20'
+  new-round-spectator: '&aNew round!;&r;20;60;20'
+  death-match-started: '&aDeath match has started!;&aRun!;20;60;20'
+  death-match-started-tagged: '&aDeath match has started!;&cYou are IT!;20;60;20'
+  death-match-started-spectator: '&aDeath match has started!;&r;20;60;20'
+sounds:
+  game-starting: NOTE_PLING;1;1
+  game-started: LEVEL_UP;1;1
+  game-started-tagged: NOTE_PIANO;1;0
+  new-round: NOTE_PLING;1;1
+  new-round-tagged: NOTE_PIANO;1;0
+  new-round-spectator: NOTE_PLING;1;1
+  death-match-started: LEVEL_UP;1;1
+  death-match-started-tagged: LEVEL_UP;1;0
+  death-match-started-spectator: LEVEL_UP;1;1
+chat-format:
+  lobby: '&7%player%: &f%message%'
+  player: '&7%player%: &f%message%'
+  tagged: '&c[IT] %player%: &f%message%'
+  spectator: '&7[SPEC] %player%: &f%message%'
+placeholders:
+  second: 'second'
+  seconds: 'seconds'
+  players-list:
+    comma: '&e, '
+    dot: '&e.'
+    player: '&7%player%'
+  none: '&fNone'

@@ -1,0 +1,84 @@
+mode: MULTI-ARENA
+# The percentage of alive players that will be tagged.
+tagged-players-percentage: 20
+# The minimum amount of players to activate the death match.
+death-match-players-size: 6
+admin-permission: 'tnttag.admin'
+explosion-delay:
+  base: 60
+  decrement: 5
+explosion-radius: 3
+tag-firework:
+  enabled: true
+  type: CREEPER
+  power: 2
+speed:
+  untagged:
+    enabled: true
+    level: 1
+  tagged:
+    enabled: true
+    level: 2
+countdowns:
+  # The countdown before the game starts
+  game-start: 10
+  # The countdown before the game ends
+  game-restart: 10
+  # The countdown before another round starts
+  round-change: 5
+tab-list:
+  format-untagged: true
+  format-tagged: true
+  format-spectator: true
+  format-waiting: true
+  format-lobby: true
+chat-format-enabled: true
+commands:
+  main:
+    # The name of the command (default: 'tnttag')
+    name: tnttag
+    # The list of aliases for the main command
+    aliases:
+      - tnttag
+      - tnt
+      - t
+    # The permission required to use the command (default: 'tnttag.command')
+    permission: 'tnttag.command'
+  reload:
+    name: reload
+    permission: 'tnttag.commands.reload'
+  build:
+    name: build
+    permission: 'tnttag.commands.build'
+  join:
+    name: join
+    permission: 'tnttag.commands.join'
+  leave:
+    name: leave
+    permission: 'tnttag.commands.leave'
+  setup:
+    name: setup
+    permission: 'tnttag.commands.setup'
+  save:
+    name: save
+    permission: 'tnttag.commands.setup'
+  set-max-players:
+    name: setmaxplayers
+    permission: 'tnttag.commands.setup'
+  set-min-players:
+    name: setminplayers
+    permission: 'tnttag.commands.setup'
+  set-lobby:
+    name: setlobby
+    permission: 'tnttag.commands.setup'
+  set-spawn:
+    name: setspawn
+    permission: 'tnttag.commands.setup'
+  set-spectator-spawn:
+    name: setspectatorspawn
+    permission: 'tnttag.commands.setup'
+  set-main-lobby:
+    name: setmainlobby
+    permission: 'tnttag.commands.setup'
+main-lobby-items: []
+waiting-lobby-items: []
