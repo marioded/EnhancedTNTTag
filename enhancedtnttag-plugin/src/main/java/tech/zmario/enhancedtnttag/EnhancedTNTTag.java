@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import tech.zmario.enhancedtnttag.api.EnhancedTNTTagAPI;
 import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
@@ -56,6 +57,8 @@ public final class EnhancedTNTTag extends JavaPlugin implements EnhancedTNTTagAP
         registerHooks();
 
         new PlayerUpdateTask(this).runTaskTimerAsynchronously(this, 1L, 1L);
+
+        Bukkit.getServicesManager().register(EnhancedTNTTagAPI.class, this, this, ServicePriority.Normal);
 
         getLogger().info("The plugin has been enabled!");
     }
