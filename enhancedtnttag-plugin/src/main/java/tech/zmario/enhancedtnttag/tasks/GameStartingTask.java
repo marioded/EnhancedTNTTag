@@ -6,9 +6,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.enums.GameState;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
 import java.util.UUID;
@@ -60,7 +60,6 @@ public class GameStartingTask extends BukkitRunnable {
         // Start the game playing task
         plugin.getGameManager().startGame(arena);
 
-        // Cancel the task, we don't need it anymore
         cancel();
     }
 }

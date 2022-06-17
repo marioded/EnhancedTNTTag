@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
 import java.util.Iterator;
@@ -90,7 +90,6 @@ public class GamePlayingTask extends BukkitRunnable {
                             Utils.playSound(MessagesConfiguration.SOUNDS_DEATH_MATCH_STARTED.getString(player), player);
                         }
 
-                        // Teleport the player to the arena spawn location because it's a death match round
                         player.teleport(arena.getSpawnLocation());
                     } else {
                         if (arena.getTaggers().contains(playerUuid)) {

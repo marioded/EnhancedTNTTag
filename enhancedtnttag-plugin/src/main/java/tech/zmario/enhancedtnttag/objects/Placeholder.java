@@ -1,4 +1,4 @@
-package tech.zmario.enhancedtnttag.api.objects;
+package tech.zmario.enhancedtnttag.objects;
 
 import lombok.Data;
 

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
-import tech.zmario.enhancedtnttag.api.commands.interfaces.SubCommand;
+import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
 
@@ -23,21 +23,21 @@ public class SetupSubCommand implements SubCommand {
         }
 
         if (args.length < 1) {
-            MessagesConfiguration.SUBCOMMAND_CREATE_USAGE.send(player);
+            MessagesConfiguration.SUBCOMMAND_SETUP_USAGE.send(player);
             return;
         }
 
         if (plugin.getSetupManager().isInSetup(player)) {
-            MessagesConfiguration.SUBCOMMAND_CREATE_ALREADY_SETTING.send(player);
+            MessagesConfiguration.SUBCOMMAND_SETUP_ALREADY_SETTING.send(player);
             return;
         }
 
         if (plugin.getArenaManager().getArena(args[1]).isPresent()) {
-            MessagesConfiguration.SUBCOMMAND_CREATE_ALREADY_EXISTS.send(player);
+            MessagesConfiguration.SUBCOMMAND_SETUP_ALREADY_EXISTS.send(player);
             return;
         }
 
-        MessagesConfiguration.SUBCOMMAND_CREATE_START.sendList(player);
+        MessagesConfiguration.SUBCOMMAND_SETUP_START.sendList(player);
 
         plugin.getSetupManager().start(player, args[1]);
     }

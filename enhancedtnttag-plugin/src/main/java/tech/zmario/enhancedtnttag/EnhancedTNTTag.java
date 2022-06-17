@@ -8,22 +8,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import tech.zmario.enhancedtnttag.api.EnhancedTNTTagAPI;
-import tech.zmario.enhancedtnttag.api.commands.interfaces.SubCommand;
+import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
 import tech.zmario.enhancedtnttag.api.manager.IArenaManager;
 import tech.zmario.enhancedtnttag.api.manager.IGameManager;
 import tech.zmario.enhancedtnttag.api.manager.ILeaderBoardManager;
 import tech.zmario.enhancedtnttag.api.manager.ISetupManager;
-import tech.zmario.enhancedtnttag.api.objects.TextFile;
 import tech.zmario.enhancedtnttag.commands.CommandManager;
 import tech.zmario.enhancedtnttag.hooks.PlaceholderAPIHook;
-import tech.zmario.enhancedtnttag.listeners.DamageListener;
-import tech.zmario.enhancedtnttag.listeners.GeneralListeners;
-import tech.zmario.enhancedtnttag.listeners.PlayerChatListener;
-import tech.zmario.enhancedtnttag.listeners.PlayerJoinQuitListener;
+import tech.zmario.enhancedtnttag.listeners.*;
 import tech.zmario.enhancedtnttag.managers.ArenaManager;
 import tech.zmario.enhancedtnttag.managers.GameManager;
 import tech.zmario.enhancedtnttag.managers.LeaderBoardManager;
 import tech.zmario.enhancedtnttag.managers.SetupManager;
+import tech.zmario.enhancedtnttag.objects.ConfigFile;
+import tech.zmario.enhancedtnttag.sql.DatabaseManager;
 import tech.zmario.enhancedtnttag.storage.LocalStorage;
 import tech.zmario.enhancedtnttag.tasks.PlayerUpdateTask;
 
@@ -31,7 +29,7 @@ import tech.zmario.enhancedtnttag.tasks.PlayerUpdateTask;
 public final class EnhancedTNTTag extends JavaPlugin implements EnhancedTNTTagAPI {
 
 
-    // TODO: powerups, remote database (mysql, sqlite), placeholderapi
+    // TODO: powerups
 
     @Getter
     private static EnhancedTNTTag instance;
@@ -42,31 +40,37 @@ public final class EnhancedTNTTag extends JavaPlugin implements EnhancedTNTTagAP
     private ILeaderBoardManager leaderBoardManager;
     private LocalStorage localStorage;
 
+    private DatabaseManager databaseManager;
     private CommandManager commandManager;
 
-    private TextFile messagesFile;
+    private ConfigFile messagesFile;
 
     @Override
     public void onEnable() {
-        getLogger().info("Initializing the plugin...");
         loadConfigurations();
         startInstances();
         registerListeners(new PlayerJoinQuitListener(this), new DamageListener(this),
-                new GeneralListeners(this), new PlayerChatListener(this));
+                new GeneralListeners(this), new PlayerChatListener(this),
+                new PlayerInteractListener(), new InventoryInteractListener(this));
         loadArenas();
         registerHooks();
+
         new PlayerUpdateTask(this).runTaskTimerAsynchronously(this, 1L, 1L);
+
+        getLogger().info("The plugin has been enabled!");
     }
 
     private void registerHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderAPIHook(this).register();
+
+            getLogger().info("Hooked into PlaceholderAPI!");
         }
     }
 
     private void loadArenas() {
-        getLogger().info("Loading arenas...");
         arenaManager.loadArenas();
+
         getLogger().info("Loaded " + arenaManager.getArenas().size() + " arenas.");
     }
 
@@ -77,14 +81,17 @@ public final class EnhancedTNTTag extends JavaPlugin implements EnhancedTNTTagAP
     }
 
     private void loadConfigurations() {
-        getLogger().info("Loading configurations...");
         saveDefaultConfig();
-        messagesFile = new TextFile(this, getDataFolder(), "messages.yml");
+        messagesFile = new ConfigFile(this, getDataFolder(), "messages.yml");
+
+        getLogger().info("Loaded configurations!");
     }
 
     private void startInstances() {
         getLogger().info("Starting instances...");
+
         instance = this;
+        databaseManager = new DatabaseManager(this);
         arenaManager = new ArenaManager(this);
         gameManager = new GameManager(this);
         setupManager = new SetupManager(this);
@@ -101,8 +108,11 @@ public final class EnhancedTNTTag extends JavaPlugin implements EnhancedTNTTagAP
             player.kickPlayer(ChatColor.RED + "The server has been reloaded. Please rejoin.");
         }
 
+        databaseManager.close();
         setupManager.removeAll();
         arenaManager.unloadArenas();
+        leaderBoardManager.disable();
+        databaseManager = null;
         arenaManager = null;
         gameManager = null;
         leaderBoardManager = null;

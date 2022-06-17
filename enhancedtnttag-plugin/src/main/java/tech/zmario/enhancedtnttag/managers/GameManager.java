@@ -9,10 +9,11 @@ import org.jetbrains.annotations.NotNull;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.enums.GameState;
 import tech.zmario.enhancedtnttag.api.manager.IGameManager;
+import tech.zmario.enhancedtnttag.api.objects.GamePlayer;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.tasks.GamePlayingTask;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
@@ -45,6 +46,9 @@ public class GameManager implements IGameManager {
             if (player.isDead()) {
                 player.spigot().respawn();
             }
+
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
 
             // Update the player list
             if (SettingsConfiguration.TAB_LIST_FORMAT_UNTAGGED.getBoolean()) {
@@ -84,7 +88,6 @@ public class GameManager implements IGameManager {
                 }
             }
 
-            // Teleport the player to the arena spawn location
             player.teleport(arena.getSpawnLocation());
         }
 
@@ -101,10 +104,14 @@ public class GameManager implements IGameManager {
         final List<UUID> topPlayers = plugin.getLeaderBoardManager().getPlayers(arena);
 
         final Player winner = Bukkit.getPlayer(topPlayers.get(0));
+        final GamePlayer gamePlayer = plugin.getLocalStorage().getGamePlayers().get(winner.getUniqueId());
 
         final String firstPlace = topPlayers.size() >= 1 ? Bukkit.getOfflinePlayer(topPlayers.get(0)).getName() : MessagesConfiguration.PLACEHOLDERS_NONE.getString(winner);
         final String secondPlace = topPlayers.size() >= 2 ? Bukkit.getOfflinePlayer(topPlayers.get(1)).getName() : MessagesConfiguration.PLACEHOLDERS_NONE.getString(winner);
         final String thirdPlace = topPlayers.size() == 3 ? Bukkit.getOfflinePlayer(topPlayers.get(2)).getName() : MessagesConfiguration.PLACEHOLDERS_NONE.getString(winner);
+
+        gamePlayer.addWin();
+        plugin.getDatabaseManager().updateWins(winner, gamePlayer.getWins());
 
         arena.sendList(MessagesConfiguration.GAME_ENDED.getStringList(null,
                 new Placeholder("%player-1%", firstPlace),

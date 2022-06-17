@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
-import tech.zmario.enhancedtnttag.api.commands.interfaces.SubCommand;
+import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 
 import java.util.Optional;
 

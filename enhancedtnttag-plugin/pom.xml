@@ -29,6 +29,16 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
@@ -38,8 +48,52 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>fr.minuskube.netherboard</pattern>
+                                    <shadedPattern>tech.zmario.enhancedtnttag.libs.netherboard</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>com.zaxxer.hikari</pattern>
+                                    <shadedPattern>tech.zmario.enhancedtnttag.libs.hikaricp</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>org.slf4j</pattern>
+                                    <shadedPattern>tech.zmario.enhancedtnttag.libs.slf4j</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>de.tr7zw</pattern>
+                                    <shadedPattern>tech.zmario.enhancedtnttag.libs.nbtapi</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-external</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${project.basedir}/libs/Netherboard-Bukkit-1.2.3.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>fr.minuskube</groupId>
+                            <artifactId>netherboard-bukkit</artifactId>
+                            <version>1.2.3</version>
+                            <packaging>jar</packaging>
+                            <generatePom>false</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -57,6 +111,11 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -66,28 +125,43 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>tech.zmario</groupId>
-            <artifactId>EnhancedTNTTag-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>fr.minuskube</groupId>
             <artifactId>netherboard-bukkit</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>tech.zmario</groupId>
+            <artifactId>EnhancedTNTTag-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

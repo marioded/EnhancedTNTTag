@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
 import java.util.List;
@@ -27,7 +27,8 @@ public class PlayerUpdateTask extends BukkitRunnable {
 
             if (!arenaOptional.isPresent()) {
                 Netherboard.instance().getBoard(player)
-                        .setAll(MessagesConfiguration.SCOREBOARD_LOBBY.getStringList(player)
+                        .setAll(MessagesConfiguration.SCOREBOARD_LOBBY.getStringList(player,
+                                        new Placeholder("%wins%", String.valueOf(0)))
                                 .toArray(new String[0]));
                 return;
             }

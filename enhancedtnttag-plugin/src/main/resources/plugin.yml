@@ -1,4 +1,5 @@
 name: EnhancedTNTTag
 version: '${project.version}'
+api-version: 1.13
 main: tech.zmario.enhancedtnttag.EnhancedTNTTag
-authors: [ zMario ]
+authors: [zMario]

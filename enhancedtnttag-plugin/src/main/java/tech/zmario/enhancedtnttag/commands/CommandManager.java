@@ -3,15 +3,14 @@ package tech.zmario.enhancedtnttag.commands;
 import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
-import tech.zmario.enhancedtnttag.api.commands.interfaces.SubCommand;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
+import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
 import tech.zmario.enhancedtnttag.commands.subcommands.*;
 import tech.zmario.enhancedtnttag.commands.subcommands.setup.*;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
 import java.lang.reflect.Constructor;
@@ -73,11 +72,14 @@ public class CommandManager implements CommandExecutor {
 
         subCommands.put(SettingsConfiguration.COMMANDS_RELOAD_NAME.getString(), new ReloadSubCommand(plugin));
         subCommands.put(SettingsConfiguration.COMMANDS_BUILD_NAME.getString(), new BuildSubCommand(plugin));
+        subCommands.put(SettingsConfiguration.COMMANDS_LOAD_NAME.getString(), new LoadSubCommand(plugin));
+        subCommands.put(SettingsConfiguration.COMMANDS_UNLOAD_NAME.getString(), new UnloadSubCommand(plugin));
 
         subCommands.put(SettingsConfiguration.COMMANDS_JOIN_NAME.getString(), new JoinSubCommand(plugin));
         subCommands.put(SettingsConfiguration.COMMANDS_LEAVE_NAME.getString(), new LeaveSubCommand(plugin));
 
         subCommands.put(SettingsConfiguration.COMMANDS_SETUP_NAME.getString(), new SetupSubCommand(plugin));
+        subCommands.put(SettingsConfiguration.COMMANDS_SAVE_NAME.getString(), new SaveSubCommand(plugin));
 
         subCommands.put(SettingsConfiguration.COMMANDS_SET_MAX_PLAYERS_NAME.getString(), new SetMaxPlayersSubCommand(plugin));
         subCommands.put(SettingsConfiguration.COMMANDS_SET_MIN_PLAYERS_NAME.getString(), new SetMinPlayersSubCommand(plugin));
@@ -85,8 +87,6 @@ public class CommandManager implements CommandExecutor {
         subCommands.put(SettingsConfiguration.COMMANDS_SET_SPAWN_NAME.getString(), new SetSpawnSubCommand(plugin));
         subCommands.put(SettingsConfiguration.COMMANDS_SET_SPECTATOR_SPAWN_NAME.getString(), new SetSpectatorSpawnSubCommand(plugin));
         subCommands.put(SettingsConfiguration.COMMANDS_SET_MAIN_LOBBY_NAME.getString(), new SetMainLobbySubCommand(plugin));
-
-        subCommands.put(SettingsConfiguration.COMMANDS_SAVE_NAME.getString(), new SaveSubCommand(plugin));
     }
 
 
@@ -97,7 +97,7 @@ public class CommandManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission(SettingsConfiguration.COMMANDS_MAIN_PERMISSION.getString())) {
-            MessagesConfiguration.NO_PERMISSION.send(sender instanceof Player ? (Player) sender : null);
+            MessagesConfiguration.NO_PERMISSION.send(sender);
             return true;
         }
 

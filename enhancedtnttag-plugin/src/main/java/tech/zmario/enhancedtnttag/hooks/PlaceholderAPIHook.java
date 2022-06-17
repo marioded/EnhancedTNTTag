@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
+import tech.zmario.enhancedtnttag.api.objects.IArena;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PlaceholderAPIHook extends PlaceholderExpansion {
@@ -42,13 +45,37 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         String identifier = params.toLowerCase();
 
         if (identifier.startsWith("arena_")) {
-            return null;
+            Optional<IArena> arenaOptional = plugin.getArenaManager().getArena(identifier.split("arena_")[0]);
+
+            if (!arenaOptional.isPresent()) {
+                return "Arena not found";
+            }
+
+            IArena arena = arenaOptional.get();
+            identifier = identifier.replace("arena_" + arena.getArenaName() + "_", "");
+
+            switch (identifier) {
+                case "players":
+                    return String.valueOf(arena.getPlayers().size());
+                case "taggers":
+                    return String.valueOf(arena.getTaggers().size());
+                case "min_players":
+                    return String.valueOf(arena.getMinPlayers());
+                case "max_players":
+                    return String.valueOf(arena.getMaxPlayers());
+                case "state":
+                    return arena.getGameState().toString();
+                case "explosion_time":
+                    return String.valueOf(arena.getExplosionTime());
+                case "round":
+                    return String.valueOf(arena.getRound());
+            }
         }
 
         if (identifier.equals("wins")) {
-            return String.valueOf(0);
+            return String.valueOf(plugin.getLocalStorage().getGamePlayers().get(player.getUniqueId()).getWins());
         }
 
-        return null;
+        return "Not found";
     }
 }

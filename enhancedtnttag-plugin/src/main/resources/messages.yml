@@ -4,18 +4,18 @@ commands:
   user-help:
     - '&8» &7Running &c&lTNTTag &7by &ezMario &7(Version: &e%version%&7)'
     - ''
-    - '&e/tnttag join <game> &7- &fJoin a new game.'
+    - '&e/tnttag join &7- &fJoin a new game.'
     - '&e/tnttag leave &7- &fLeave the current game.'
     - ''
   admin-help:
-    - '&8» &7Running &c&lTNTTag &7by &ezMario &7(Version: &e%version%&7)'
+    - '&8» &7Running &c&lEnhancedTNTTag &7by &ezMario &7(Version: &e%version%&7)'
     - ''
-    - '&e/tnttag join <game> &7- &fJoin a new game.'
+    - '&e/tnttag join (game) &7- &fJoin a new game.'
     - '&e/tnttag leave &7- &fLeave the current game.'
     - ''
     - '&e/tnttag setMainLobby &7- &fSet the main lobby.'
     - '&e/tnttag build &7- &fToggle the build mode.'
-    - '&e/tnttag create &7- &fCreate a new game.'
+    - '&e/tnttag setup <game> &7- &fSetup an arena.'
     - '&e/tnttag save &7- &fSave the current game.'
     - '&e/tnttag reload &7- &fReload the config.'
   subcommands:
@@ -34,22 +34,21 @@ commands:
     leave:
       not-in-game: '&cYou are not in a game!'
       success: '&aYou have left the game %arena%.'
-    create:
-      usage: '&aUsage: &7/tnttag create <name>'
-      already-exists: '&cAn arena with that name already exists!'
-      start:
-        - '&e&lTNTTag &7- &fArena setup'
-        - '&aStarting creating the arena! Use the following commands to setup it:'
-        - ''
-        - '&e/tnttag setMaxPlayers <number> &7- &fSet the maximum amount of players allowed in the arena.'
-        - '&e/tnttag setMinPlayers <number> &7- &fSet the minimum amount of players allowed in the arena.'
-        - '&e/tnttag setLobby &7- &fSet the waiting lobby location.'
-        - '&e/tnttag setSpawn &7- &fSet the spawn location.'
-        - '&e/tnttag setSpectatorSpawn &7- &fSet the spectator spawn location.'
-        - '&e/tnttag save &7- &fSave the arena and enable it.'
     set-main-lobby:
       success: '&aThe main lobby has been set!'
     setup:
+      usage: '&aUsage: &7/tnttag setup <name>'
+        already-exists: '&cAn arena with that name already exists!'
+        start:
+          - '&e&lTNTTag &7- &fArena setup'
+          - '&aUse the following commands to setup it:'
+          - ''
+          - '&e/tnttag setMaxPlayers <number> &7- &fSet the maximum amount of players allowed in the arena.'
+          - '&e/tnttag setMinPlayers <number> &7- &fSet the minimum amount of players allowed in the arena.'
+          - '&e/tnttag setLobby &7- &fSet the waiting lobby location.'
+          - '&e/tnttag setSpawn &7- &fSet the spawn location.'
+          - '&e/tnttag setSpectatorSpawn &7- &fSet the spectator spawn location.'
+          - '&e/tnttag save &7- &fSave the arena and enable it.'
       not-setting: '&cYou are not setting up an arena!'
       set-max-players:
         usage: '&cUsage: &f/tnttag setMaxPlayers <number>'
@@ -139,7 +138,7 @@ scoreboard:
   lobby:
     - '&7%date%'
     - ''
-    - '&fWins: &a%wins%' # Placeholder to add
+    - '&fWins: &a%wins%'
     - ''
     - '&ewww.spigotmc.org'
   waiting:

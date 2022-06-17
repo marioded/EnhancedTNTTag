@@ -1,4 +1,4 @@
-package tech.zmario.enhancedtnttag.api.objects;
+package tech.zmario.enhancedtnttag.objects;
 
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Getter
-public class TextFile {
+public class ConfigFile {
     private final Plugin plugin;
     private final String path;
 
@@ -17,7 +17,7 @@ public class TextFile {
 
     private YamlConfiguration config;
 
-    public TextFile(Plugin plugin, File folder, String path) {
+    public ConfigFile(Plugin plugin, File folder, String path) {
 
         this.plugin = plugin;
         this.path = path;

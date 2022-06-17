@@ -25,7 +25,9 @@ public class SetupManager implements ISetupManager {
     }
 
     public void start(Player player, String arenaName) {
+        plugin.getLocalStorage().getBuildPlayers().remove(player.getUniqueId());
         plugin.getLocalStorage().getBuildPlayers().add(player.getUniqueId());
+
         setupPlayers.put(player.getUniqueId(), new Arena(plugin, arenaName));
     }
 

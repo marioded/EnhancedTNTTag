@@ -63,7 +63,7 @@ public class ArenaConfig {
             Files.delete(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
-            plugin.getLogger().severe("Failed to delete configuration file: " + path);
+            plugin.getLogger().severe("Failed to delete arena file: " + path);
         }
     }
 
@@ -72,7 +72,7 @@ public class ArenaConfig {
             config.save(file);
         } catch (IOException e) {
             e.printStackTrace();
-            plugin.getLogger().severe("Failed to save configuration file: " + path);
+            plugin.getLogger().severe("Failed to save arena file: " + path);
         }
     }
 }

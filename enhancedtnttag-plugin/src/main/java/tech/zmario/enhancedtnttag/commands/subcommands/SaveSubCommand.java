@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
-import tech.zmario.enhancedtnttag.api.commands.interfaces.SubCommand;
+import tech.zmario.enhancedtnttag.api.manager.interfaces.SubCommand;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
 

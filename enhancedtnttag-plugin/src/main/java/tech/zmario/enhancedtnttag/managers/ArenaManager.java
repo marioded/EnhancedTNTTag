@@ -32,6 +32,7 @@ public class ArenaManager implements IArenaManager {
     @Override
     public void enableArena(@NotNull IArena arena) {
         plugin.getServer().createWorld(new WorldCreator(arena.getSpawnLocation().getWorld().getName()));
+
         arenas.put(arena.getArenaName(), arena);
     }
 

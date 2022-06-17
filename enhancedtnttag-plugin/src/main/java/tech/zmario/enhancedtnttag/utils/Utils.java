@@ -3,24 +3,27 @@ package tech.zmario.enhancedtnttag.utils;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.manager.IArenaManager;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
+import tech.zmario.enhancedtnttag.builders.ItemBuilder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @UtilityClass
 public class Utils {
@@ -225,9 +228,170 @@ public class Utils {
         return location.getWorld().getName() + ";" + location.getX() + ";" + location.getY() + ";" + location.getZ() + ";" + location.getYaw() + ";" + location.getPitch();
     }
 
-    public static String getDate() {
+    public String getDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public void sendItems(Player player, String type) {
+        Set<String> keys = SettingsConfiguration.valueOf("ITEMS_" + type.toUpperCase()).getKeys();
+
+        for (String key : keys) {
+            String identifier = "items." + type + "." + key;
+            FileConfiguration configuration = EnhancedTNTTag.getInstance().getConfig();
+
+            String material = configuration.getString(identifier + ".material");
+
+            ItemBuilder itemBuilder = new ItemBuilder(
+                    new ItemStack(material.startsWith("skull:") ? Material.SKULL_ITEM : Material.valueOf(material.toUpperCase()),
+                            (short) (material.startsWith("skull:") ? 3 : configuration.getInt(identifier + ".data"))));
+
+            itemBuilder.setAmount(configuration.getInt(identifier + ".amount"));
+
+            itemBuilder.setName(configuration.getString(identifier + ".name"));
+            itemBuilder.setLore(configuration.getStringList(identifier + ".lore"));
+
+            itemBuilder.setUnbreakable(configuration.getBoolean(identifier + ".unbreakable"));
+
+            if (material.startsWith("skull:")) {
+                itemBuilder.setPlayerSkull(material.replace("skull:", ""));
+            }
+
+            configuration.getStringList(identifier + ".enchants").forEach(string -> {
+                String[] split = string.split(";");
+                itemBuilder.addEnchant(getEnchantByName(split[0]), Integer.parseInt(split[1]));
+            });
+
+            configuration.getStringList(identifier + ".flags").forEach(string -> itemBuilder.addFlags(ItemFlag.valueOf(string.toUpperCase())));
+
+            itemBuilder.setTag("TNTTag-Command", configuration.getString(identifier + ".command"));
+
+            player.getInventory().setItem(configuration.getInt(identifier + ".slot"), itemBuilder.toItemStack());
+        }
+    }
+
+    public static Enchantment getEnchantByName(String name) {
+        switch (name.toLowerCase()) {
+            case "prot":
+            case "protection":
+            case "protection_environmental":
+                return Enchantment.PROTECTION_ENVIRONMENTAL;
+            case "fireprot":
+            case "protectionfire":
+            case "fireprotection":
+            case "protection_fire":
+                return Enchantment.PROTECTION_FIRE;
+            case "protection_fall":
+            case "fallprotection":
+            case "fallprot":
+            case "featherfalling":
+            case "feather":
+                return Enchantment.PROTECTION_FALL;
+            case "protectionexplosions":
+            case "explosionprot":
+            case "explosionprotection":
+            case "protection_explosions":
+                return Enchantment.PROTECTION_EXPLOSIONS;
+            case "protection_projectile":
+            case "projectile_prot":
+            case "projectile":
+            case "protectionprojectile":
+            case "projectiles":
+                return Enchantment.PROTECTION_PROJECTILE;
+            case "oxygen":
+            case "respiration":
+            case "resp":
+                return Enchantment.OXYGEN;
+            case "waterworker":
+            case "waterwork":
+            case "water":
+            case "water_worker":
+            case "aqua":
+            case "affinity":
+            case "aquaaffinity":
+                return Enchantment.WATER_WORKER;
+            case "thorns":
+                return Enchantment.THORNS;
+            case "depth":
+            case "depth_strider":
+            case "depthstrider":
+                return Enchantment.DEPTH_STRIDER;
+            case "sharpness":
+            case "sharp":
+            case "damageall":
+            case "damage":
+            case "damage_all":
+                return Enchantment.DAMAGE_ALL;
+            case "damage_undead":
+            case "damageundead":
+            case "undead":
+            case "smite":
+                return Enchantment.DAMAGE_UNDEAD;
+            case "damage_arthropods":
+            case "arthropods":
+                return Enchantment.DAMAGE_ARTHROPODS;
+            case "kb":
+            case "knockback":
+                return Enchantment.KNOCKBACK;
+            case "fireaspect":
+            case "fire":
+            case "fire_aspect":
+                return Enchantment.FIRE_ASPECT;
+            case "looting":
+            case "loot":
+            case "bonus":
+            case "loot_bonus_mobs":
+            case "lootbonusmobs":
+                return Enchantment.LOOT_BONUS_MOBS;
+            case "digspeed":
+            case "dig":
+            case "dig_speed":
+            case "eff":
+            case "efficiency":
+                return Enchantment.DIG_SPEED;
+            case "silk":
+            case "touch":
+            case "silk_touch":
+            case "silktouch":
+                return Enchantment.SILK_TOUCH;
+            case "unb":
+            case "unbreaking":
+            case "durability":
+                return Enchantment.DURABILITY;
+            case "fortune":
+            case "fort":
+            case "lootbonusblocks":
+                return Enchantment.LOOT_BONUS_BLOCKS;
+            case "power":
+            case "arrowdamage":
+            case "arrow_damage":
+                return Enchantment.ARROW_DAMAGE;
+            case "punch":
+            case "arrow_knockback":
+            case "arrowknockback":
+                return Enchantment.ARROW_KNOCKBACK;
+            case "flame":
+            case "arrowflame":
+            case "arrowfire":
+            case "arrow_fire":
+            case "arrow_flame":
+                return Enchantment.ARROW_FIRE;
+            case "infinity":
+            case "inf":
+            case "arrowinfinity":
+            case "arrow_infinity":
+            case "arrowinf":
+                return Enchantment.ARROW_INFINITE;
+            case "luck":
+            case "sea":
+            case "luckofthesea":
+            case "luckofsea":
+                return Enchantment.LUCK;
+            case "lure":
+                return Enchantment.LURE;
+
+        }
+        return Enchantment.getByName(name);
     }
 }

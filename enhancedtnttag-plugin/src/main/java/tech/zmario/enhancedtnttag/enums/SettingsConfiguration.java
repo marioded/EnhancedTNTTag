@@ -3,8 +3,16 @@ package tech.zmario.enhancedtnttag.enums;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 
 import java.util.List;
+import java.util.Set;
 
 public enum SettingsConfiguration {
+
+    MYSQL_DRIVER("mysql.driver"),
+    MYSQL_HOST("mysql.host"),
+    MYSQL_PORT("mysql.port"),
+    MYSQL_USERNAME("mysql.username"),
+    MYSQL_PASSWORD("mysql.password"),
+    MYSQL_DATABASE("mysql.database"),
 
     TAGGED_PLAYERS_PERCENTAGE("tagged-players-percentage"),
     DEATH_MATCH_PLAYERS_SIZE("death-match-players-size"),
@@ -34,6 +42,9 @@ public enum SettingsConfiguration {
     TAB_LIST_FORMAT_LOBBY("tab-list.format-lobby"),
 
     CHAT_FORMAT_ENABLED("chat-format-enabled"),
+
+    ITEMS_LOBBY("items.lobby"),
+    ITEMS_SPECTATOR("items.spectator"),
 
     COMMANDS_MAIN_NAME("commands.main.name"),
     COMMANDS_MAIN_ALIASES("commands.main.aliases"),
@@ -77,6 +88,9 @@ public enum SettingsConfiguration {
 
     COMMANDS_UNLOAD_NAME("commands.unload.name"),
     COMMANDS_UNLOAD_PERMISSION("commands.unload.permission"),
+
+    COMMANDS_LOAD_NAME("commands.load.name"),
+    COMMANDS_LOAD_PERMISSION("commands.load.permission"),
     
     MAIN_LOBBY_LOCATION("main-lobby-location"),
     ;
@@ -107,5 +121,9 @@ public enum SettingsConfiguration {
 
     public List<String> getStringList() {
         return instance.getConfig().getStringList(path);
+    }
+
+    public Set<String> getKeys() {
+        return instance.getConfig().getConfigurationSection(path).getKeys(false);
     }
 }

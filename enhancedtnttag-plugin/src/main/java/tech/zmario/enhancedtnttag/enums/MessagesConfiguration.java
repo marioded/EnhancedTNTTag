@@ -5,9 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 import tech.zmario.enhancedtnttag.EnhancedTNTTag;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
+import tech.zmario.enhancedtnttag.objects.Placeholder;
 import tech.zmario.enhancedtnttag.utils.Utils;
 
 import java.util.List;
@@ -32,10 +31,10 @@ public enum MessagesConfiguration {
     SUBCOMMAND_LEAVE_NOT_IN_GAME("commands.subcommands.leave.not-in-game"),
     SUBCOMMAND_LEAVE_SUCCESS("commands.subcommands.leave.success"),
 
-    SUBCOMMAND_CREATE_USAGE("commands.subcommands.create.usage"),
-    SUBCOMMAND_CREATE_ALREADY_EXISTS("commands.subcommands.create.already-exists"),
-    SUBCOMMAND_CREATE_ALREADY_SETTING("commands.subcommands.create.already-setting"),
-    SUBCOMMAND_CREATE_START("commands.subcommands.create.start"),
+    SUBCOMMAND_SETUP_USAGE("commands.subcommands.setup.usage"),
+    SUBCOMMAND_SETUP_ALREADY_EXISTS("commands.subcommands.setup.already-exists"),
+    SUBCOMMAND_SETUP_ALREADY_SETTING("commands.subcommands.setup.already-setting"),
+    SUBCOMMAND_SETUP_START("commands.subcommands.setup.start"),
 
     SUBCOMMAND_SETUP_NOT_SETTING("commands.subcommands.setup.not-setting"),
 
@@ -56,7 +55,7 @@ public enum MessagesConfiguration {
     SUBCOMMAND_SET_MAIN_LOBBY_SUCCESS("commands.subcommands.set-main-lobby.success"),
 
     SUBCOMMAND_LOAD_USAGE("commands.subcommands.load.usage"),
-    SUBCOMMAND_LOAD_NOT_EXIST("commands.subcommands.load.not-exist"),
+    SUBCOMMAND_LOAD_ALREADY_LOADED("commands.subcommands.load.already-loaded"),
     SUBCOMMAND_LOAD_SUCCESS("commands.subcommands.load.success"),
 
     SUBCOMMAND_UNLOAD_USAGE("commands.subcommands.unload.usage"),
@@ -143,7 +142,7 @@ public enum MessagesConfiguration {
         this.path = path;
     }
 
-    public String getString(@Nullable OfflinePlayer player, Placeholder... placeholders) {
+    public String getString(OfflinePlayer player, Placeholder... placeholders) {
         String message = Utils.colorize(instance.getMessages().getString(path));
 
         for (Placeholder placeholder : placeholders) {
@@ -157,7 +156,7 @@ public enum MessagesConfiguration {
         return message;
     }
 
-    public List<String> getStringList(@Nullable OfflinePlayer player, Placeholder... placeholders) {
+    public List<String> getStringList(OfflinePlayer player, Placeholder... placeholders) {
 
         return instance.getMessages().getStringList(path).stream().map(Utils::colorize).map(message -> {
 

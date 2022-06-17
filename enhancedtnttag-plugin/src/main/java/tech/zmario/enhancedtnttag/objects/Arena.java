@@ -14,7 +14,6 @@ import tech.zmario.enhancedtnttag.EnhancedTNTTag;
 import tech.zmario.enhancedtnttag.api.enums.GameState;
 import tech.zmario.enhancedtnttag.api.objects.ArenaConfig;
 import tech.zmario.enhancedtnttag.api.objects.IArena;
-import tech.zmario.enhancedtnttag.api.objects.Placeholder;
 import tech.zmario.enhancedtnttag.enums.MessagesConfiguration;
 import tech.zmario.enhancedtnttag.enums.SettingsConfiguration;
 import tech.zmario.enhancedtnttag.tasks.GameStartingTask;
@@ -134,11 +133,11 @@ public class Arena implements IArena {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
 
-        // Teleport the player to the lobby location
         player.teleport(lobbyLocation);
 
-        // Hide the players from the player list
         Utils.hidePlayers(player, plugin.getArenaManager());
+
+        Utils.sendItems(player, "waiting-lobby");
 
         // Check if we can start the game
         if (players.size() >= minPlayers && gameState == GameState.WAITING) {
@@ -215,8 +214,9 @@ public class Arena implements IArena {
         sendMessage(MessagesConfiguration.PLAYER_BLOWN_UP.getString(player,
                 new Placeholder("%player%", player.getName())));
 
-        // Hide the players from the player list
         Utils.hidePlayers(player, plugin.getArenaManager());
+
+        Utils.sendItems(player, "spectator");
     }
 
     @Override
@@ -231,6 +231,7 @@ public class Arena implements IArena {
         player.teleport(Utils.getMainLobby());
 
         Utils.hidePlayers(player, plugin.getArenaManager());
+        Utils.sendItems(player, "main-lobby");
 
         // Update the player list
         if (SettingsConfiguration.TAB_LIST_FORMAT_LOBBY.getBoolean()) {
@@ -293,6 +294,8 @@ public class Arena implements IArena {
         players.clear();
         spectators.clear();
         taggers.clear();
+
+        plugin.getLeaderBoardManager().clear(this);
 
         new GameStartingTask(plugin, this).runTaskTimer(plugin, 0L, 20L);
     }

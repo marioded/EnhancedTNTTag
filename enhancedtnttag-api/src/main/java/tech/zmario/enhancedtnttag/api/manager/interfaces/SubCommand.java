@@ -1,4 +1,4 @@
-package tech.zmario.enhancedtnttag.api.commands.interfaces;
+package tech.zmario.enhancedtnttag.api.manager.interfaces;
 
 import org.bukkit.command.CommandSender;
 

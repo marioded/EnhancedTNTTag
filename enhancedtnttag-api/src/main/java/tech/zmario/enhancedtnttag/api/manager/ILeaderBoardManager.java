@@ -16,4 +16,5 @@ public interface ILeaderBoardManager {
 
     void clear(IArena arena);
 
+    void disable();
 }

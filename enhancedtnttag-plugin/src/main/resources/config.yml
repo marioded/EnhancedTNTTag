@@ -1,4 +1,11 @@
-mode: MULTI-ARENA
+mysql:
+  enabled: true
+  driver: 'com.mysql.jdbc.Driver'
+  host: '127.0.0.1'
+  port: 3306
+  username: 'root'
+  password: 'password'
+  database: 'enhancedtnttag'
 # The percentage of alive players that will be tagged.
 tagged-players-percentage: 20
 # The minimum amount of players to activate the death match.
@@ -11,7 +18,7 @@ explosion-radius: 3
 tag-firework:
   enabled: true
   type: CREEPER
-  power: 2
+  power: 1
 speed:
   untagged:
     enabled: true
@@ -33,6 +40,24 @@ tab-list:
   format-waiting: true
   format-lobby: true
 chat-format-enabled: true
+items:
+  main-lobby:
+    1:
+      slot: 4
+      material: COMPASS
+      data: 0
+      amount: 1
+      name: '&b&lQuick Play'
+      lore:
+        - '&7Join a new TNTTag game.'
+      unbreakable: true
+      enchants:
+        - UNBREAKING;1
+      flags:
+        - HIDE_ENCHANTS
+      command: 'tnttag join'
+  waiting-lobby: []
+  spectator: []
 commands:
   main:
     # The name of the command (default: 'tnttag')
@@ -47,9 +72,15 @@ commands:
   reload:
     name: reload
     permission: 'tnttag.commands.reload'
+  load:
+    name: load
+    permission: 'tnttag.commands.admin'
   build:
     name: build
-    permission: 'tnttag.commands.build'
+    permission: 'tnttag.commands.admin'
+  unload:
+    name: unload
+    permission: 'tnttag.commands.admin'
   join:
     name: join
     permission: 'tnttag.commands.join'
@@ -80,5 +111,3 @@ commands:
   set-main-lobby:
     name: setmainlobby
     permission: 'tnttag.commands.setup'
-main-lobby-items: []
-waiting-lobby-items: []
