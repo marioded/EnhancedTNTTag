@@ -38,17 +38,17 @@ commands:
       success: '&aThe main lobby has been set!'
     setup:
       usage: '&aUsage: &7/tnttag setup <name>'
-        already-exists: '&cAn arena with that name already exists!'
-        start:
-          - '&e&lTNTTag &7- &fArena setup'
-          - '&aUse the following commands to setup it:'
-          - ''
-          - '&e/tnttag setMaxPlayers <number> &7- &fSet the maximum amount of players allowed in the arena.'
-          - '&e/tnttag setMinPlayers <number> &7- &fSet the minimum amount of players allowed in the arena.'
-          - '&e/tnttag setLobby &7- &fSet the waiting lobby location.'
-          - '&e/tnttag setSpawn &7- &fSet the spawn location.'
-          - '&e/tnttag setSpectatorSpawn &7- &fSet the spectator spawn location.'
-          - '&e/tnttag save &7- &fSave the arena and enable it.'
+      already-exists: '&cAn arena with that name already exists!'
+      start:
+        - '&e&lTNTTag &7- &fArena setup'
+        - '&aUse the following commands to setup it:'
+        - ''
+        - '&e/tnttag setMaxPlayers <number> &7- &fSet the maximum amount of players allowed in the arena.'
+        - '&e/tnttag setMinPlayers <number> &7- &fSet the minimum amount of players allowed in the arena.'
+        - '&e/tnttag setLobby &7- &fSet the waiting lobby location.'
+        - '&e/tnttag setSpawn &7- &fSet the spawn location.'
+        - '&e/tnttag setSpectatorSpawn &7- &fSet the spectator spawn location.'
+        - '&e/tnttag save &7- &fSave the arena and enable it.'
       not-setting: '&cYou are not setting up an arena!'
       set-max-players:
         usage: '&cUsage: &f/tnttag setMaxPlayers <number>'
